@@ -21,9 +21,9 @@
         args="-topic robot_description -entity my_bot"/>
 
   <!-- Controllers -->
-  <!--node pkg="controller_manager" exec="spawner" args="forward_position_controller"/-->
+  <node pkg="controller_manager" exec="spawner" args="forward_position_controller"/>
   
-  <node pkg="controller_manager" exec="spawner" args="robot_controller"/>      
+  <!--node pkg="controller_manager" exec="spawner" args="pid_controller"/-->      
 
   <node pkg="controller_manager" exec="spawner" args="joint_state_broadcaster"/>
 
