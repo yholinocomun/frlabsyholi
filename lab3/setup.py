@@ -26,6 +26,10 @@ setup(
     entry_points={
         'console_scripts': [
         	#'publisher = lab2.nodo_pub:main',
+            'pub_sensor = lab3.pub_sensor:main',
+            'other_node_joints = lab3.other_node_joints:main',
+            'send_joints = lab3.send_joints:main',
+            
         ],
     },
 )

@@ -2,9 +2,11 @@
 <launch>
 
   <let name="urdf_path" value="$(find-pkg-share lab3)/urdf/mobile.urdf" />
-
+  <!-- 
   <node pkg="joint_state_publisher_gui" exec="joint_state_publisher_gui" />
-
+  -->
+  <node pkg="lab3" exec="other_node_joints" name="other_node_joints" output="screen" />
+  
   <node pkg="robot_state_publisher" exec="robot_state_publisher">
     <param name="robot_description" value="$(command 'xacro $(var urdf_path)')"/>
   </node>
