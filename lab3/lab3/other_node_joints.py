@@ -24,11 +24,11 @@ def main(args=None):
 
     # Crea un publicador en el tópico /joint_states.
     # robot_state_publisher escucha este tópico.
-    publisher = node.create_publisher(
+    publisher = node.create_publisher(   #tipo de mensaje, nombre del tópico, tamaño de la cola)
         JointState,
         '/joint_states',
         10
-    )
+    ) #
 
     # Posiciones elegidas para las ruedas.
     # Como los joints son continuous, estos valores están dentro de un rango válido.
@@ -43,17 +43,17 @@ def main(args=None):
         """
 
         # Creamos un mensaje JointState vacío.
-        msg = JointState()
+        msg = JointState() #es un mensaje vacío del tipo JointState. Luego llenaremos sus campos con la información de las articulaciones que queremos publicar.
 
         # Agregamos el tiempo actual.
         # robot_state_publisher necesita timestamps correctos para procesar los estados.
-        msg.header.stamp = node.get_clock().now().to_msg()
+        msg.header.stamp = node.get_clock().now().to_msg() #node.get_clock().now() obtiene el tiempo actual del nodo, y .to_msg() lo convierte al formato de mensaje ROS 2.
 
         # Nombres EXACTOS de las articulaciones en mobile.urdf.
         # Si estos nombres no coinciden con el URDF, el robot no se moverá.
         msg.name = [
-            'base_link_to_right_wheel_link_joint',
-            'base_link_to_left_wheel_link_joint'
+            'base_link_to_right_wheel_link_joint', ##este nombre debe coincidir exactamente con el nombre del joint definido en el URDF. En este caso, es base_link_to_right_wheel_link_joint para la rueda derecha y base_link_to_left_wheel_link_joint para la rueda izquierda.
+            'base_link_to_left_wheel_link_joint'   #este nombre debe coincidir exactamente con el nombre del joint definido en el URDF. En este caso, es base_link_to_right_wheel_link_joint para la rueda derecha y base_link_to_left_wheel_link_joint para la rueda izquierda.
         ]
 
         # Posiciones articulares correspondientes a cada nombre.
