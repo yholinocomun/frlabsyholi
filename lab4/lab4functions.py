@@ -32,28 +32,28 @@ def dh(d, theta, a, alpha):
     return T
 
 
-def fkine_ur5(q):
+def fkine_ur5e(q):
     """
-    Cinematica directa del UR5.
+    Cinematica directa del UR5e.
     q : vector numpy [q1, q2, q3, q4, q5, q6] en radianes.
     Retorna T : matriz 4x4 del efector final respecto a la base.
 
-    Tabla DH (Universal Robots, valores en metros y radianes):
-        i |  theta  |    d     |    a     |  alpha
-        --|---------|----------|----------|--------
-        1 |   q1    |  0.08920 |   0      |  pi/2
-        2 |   q2    |  0       | -0.425   |  0
-        3 |   q3    |  0       | -0.392   |  0
-        4 |   q4    |  0.1093  |   0      |  pi/2
-        5 |   q5    |  0.09475 |   0      | -pi/2
-        6 |   q6    |  0.0825  |   0      |  0
+    Tabla DH (Universal Robots UR5e, valores en metros y radianes):
+        i |  theta  |    d     |    a      |  alpha
+        --|---------|----------|-----------|--------
+        1 |   q1    |  0.1625  |   0       |  pi/2
+        2 |   q2    |  0       | -0.425    |  0
+        3 |   q3    |  0       | -0.3922   |  0
+        4 |   q4    |  0.1333  |   0       |  pi/2
+        5 |   q5    |  0.0997  |   0       | -pi/2
+        6 |   q6    |  0.0996  |   0       |  0
     """
-    T1 = dh(0.089159, q[0],  0.000,  pi / 2)
-    T2 = dh(0.00000, q[1], -0.425,  0.0)
-    T3 = dh(0.00000, q[2], -0.392,  0.0)
-    T4 = dh(0.10915, q[3],  0.000,  pi / 2)
-    T5 = dh(0.09465, q[4],  0.000, -pi / 2)
-    T6 = dh(0.08230, q[5],  0.000,  0.0)
+    T1 = dh(0.1625,  q[0],  0.0000,  pi / 2)
+    T2 = dh(0.0000,  q[1], -0.4250,  0.0)
+    T3 = dh(0.0000,  q[2], -0.3922,  0.0)
+    T4 = dh(0.1333,  q[3],  0.0000,  pi / 2)
+    T5 = dh(0.0997,  q[4],  0.0000, -pi / 2)
+    T6 = dh(0.0996,  q[5],  0.0000,  0.0)
 
     T = T1 @ T2 @ T3 @ T4 @ T5 @ T6
     return T
