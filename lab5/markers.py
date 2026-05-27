@@ -9,6 +9,13 @@ import numpy as np
 import rclpy
 
 
+def _get_reference_frame(node):
+    """Declara el parametro reference_frame solo si aun no fue declarado."""
+    if not node.has_parameter('reference_frame'):
+        node.declare_parameter('reference_frame', 'base')
+    return node.get_parameter('reference_frame').value
+
+
 class BallMarker(object):
     """
     Class to visualize ball markers in RViz
@@ -21,7 +28,7 @@ class BallMarker(object):
         dictionary (e.g. BLUE, RED, etc). Alpha sets the transparency and scale
         scales the size of the ball
         """
-        reference_frame = node.declare_parameter('reference_frame', 'base').value
+        reference_frame = _get_reference_frame(node)
         self.marker_pub = node.create_publisher(Marker, "visualization_marker", 10)
         self.marker = Marker()
         self.marker.header.frame_id = reference_frame
@@ -101,7 +108,7 @@ class FrameMarker(object):
         The color saturation ranges from 0 to 1. Alpha sets the transparency
         and scale scales the size of the ball
         """
-        reference_frame = node.declare_parameter('reference_frame', 'base').value
+        reference_frame = _get_reference_frame(node)
         self.marker_pub = node.create_publisher(Marker, "visualization_marker", 10)
         self.markerx = Marker()
         self.markery = Marker()
@@ -190,7 +197,6 @@ class FrameMarker(object):
 
             # Y is rotated 90 wrt current Z
             q1 = np.array([np.cos(np.pi/4.0),0.,0.,np.sin(np.pi/4.0)])
-            #q = quaternionMult(pose[np.ix_([3,4,5,6])],q1)
             q = quaternionMult(pose[3:],q1)
             self.markery.pose.orientation.w = q[0]
             self.markery.pose.orientation.x = q[1]
