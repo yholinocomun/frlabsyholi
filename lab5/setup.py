@@ -28,7 +28,7 @@ setup(
     },
     entry_points={
         'console_scripts': [
-        
+            'inv_ur5 = lab5.inv_ur5:main',
         ],
     },
 )

@@ -47,23 +47,23 @@ def jacobian_position(q, delta=0.0001):
  q=[q1, q2, q3, ..., qn]
  """
  # Determinar la cantidad de articulaciones
- #n =
- # Crear una matriz 3xn 
- #J = 
+ n = q.shape[0]
+ # Crear una matriz 3xn
+ J = np.zeros((3, n))
  # Calcular la transformacion homogenea inicial (usando q)
- 
-    
+ T = fkine_ur5(q)
+ p0 = T[0:3, 3]
+
  # Iteracion para la derivada de cada articulacion (columna)
  for i in range(n):
   # Copiar la configuracion articular inicial
   dq = copy(q)
-  # Calcular nuevamenta la transformacion homogenea e
-  # Incrementar la articulacion i-esima usando un delta, 
-  # usar la copia de configuración inicial
-  
+  # Incrementar la articulacion i-esima usando un delta
+  dq[i] += delta
   # Transformacion homogenea luego del incremento (q+delta)
-  
+  T_delta = fkine_ur5(dq)
   # Aproximacion del Jacobiano de posicion usando diferencias finitas
+  J[:, i] = (T_delta[0:3, 3] - p0) / delta
 
  return J
 
@@ -79,9 +79,21 @@ def ikine(xdes, q0):
 
  q  = copy(q0)
  for i in range(max_iter):
-  # Main loop
-  pass
-    
+  # Posicion actual del efector final
+  T = fkine_ur5(q)
+  p = T[0:3, 3]
+  # Error entre posicion deseada y actual
+  e = xdes - p
+  # Criterio de parada: error menor que epsilon
+  if np.linalg.norm(e) < epsilon:
+   break
+  # Jacobiano de posicion (3xn)
+  J = jacobian_position(q, delta)
+  # Pseudoinversa del Jacobiano (nx3)
+  J_pinv = np.linalg.pinv(J)
+  # Actualizacion del metodo de Newton: q = q + J^+ * e
+  q = q + J_pinv.dot(e)
+
  return q
 
 
@@ -93,12 +105,23 @@ def ik_gradient(xdes, q0):
  epsilon  = 0.001
  max_iter = 1000
  delta    = 0.00001
+ alpha    = 0.5
 
  q  = copy(q0)
  for i in range(max_iter):
-  # Main loop
-  pass
-    
+  # Posicion actual del efector final
+  T = fkine_ur5(q)
+  p = T[0:3, 3]
+  # Error entre posicion deseada y actual
+  e = xdes - p
+  # Criterio de parada: error menor que epsilon
+  if np.linalg.norm(e) < epsilon:
+   break
+  # Jacobiano de posicion (3xn)
+  J = jacobian_position(q, delta)
+  # Actualizacion por descenso de gradiente: q = q + alpha * J^T * e
+  q = q + alpha * J.T.dot(e)
+
  return q
 
 
