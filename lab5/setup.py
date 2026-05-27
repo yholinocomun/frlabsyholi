@@ -28,7 +28,9 @@ setup(
     },
     entry_points={
         'console_scripts': [
-            'inv_ur5 = lab5.inv_ur5:main',
+            'inv_ur5        = lab5.inv_ur5:main',
+            'command_gazebo = lab5.command_gazebo:main',
+            'square_ur5     = lab5.square_ur5:main',
         ],
     },
 )
