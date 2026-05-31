@@ -21,10 +21,10 @@ def main():
   # Joint names
   jnames = ['shoulder_pan_joint', 'shoulder_lift_joint', 'elbow_joint','wrist_1_joint', 'wrist_2_joint', 'wrist_3_joint']
   # Joint Configuration
-  q  = np.array([0.0, -np.pi/4, 0.0, 0.0, 0.0, 0.0])
+  q  = np.array([0.0, 0.0, 0.0, 0.0, 0.0, 0.0])
  
   # End effector with respect to the base
-  T = fkine_ur5(q)
+  T = fkine_ur5e(q)
   print(np.round(T,3))
   #bmarker.position(T)
  
