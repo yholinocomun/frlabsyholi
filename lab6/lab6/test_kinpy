@@ -1,0 +1,21 @@
+#!/usr/bin/env python3
+import numpy as np
+import kinpy as kp
+from scipy.spatial.transform import Rotation as R
+
+chain = kp.build_serial_chain_from_urdf(open("../urdf/ur5_robot.urdf"), root_link_name="base_link", end_link_name="ee_link")
+
+target_pos = np.array([0.5, 0.0, 0.5])
+desired_rpy = (0.0, 0.0, 0.0)
+
+r = R.from_euler('xyz', desired_rpy)
+quat_xyzw = r.as_quat() # [x, y, z, w]
+quat_wxyz = np.array([quat_xyzw[3], quat_xyzw[0], quat_xyzw[1], quat_xyzw[2]])
+target_transform = kp.Transform(rot=quat_wxyz, pos=target_pos)
+
+initial_guess_up = [0.0, -1.0, 1.0, 0.0, 0.0, 0.0]
+solution = chain.inverse_kinematics(target_transform, initial_guess_up)
+
+print(solution)
+
+
