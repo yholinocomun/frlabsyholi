@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro">
+
+  <!--
+    Macro para crear un link a partir de una malla STL.
+    Usa el mismo STL para el modelo visual y para la colision,
+    porque en este proyecto solo tenemos archivos .stl (no hay .dae).
+  -->
+  <xacro:macro name="create_link" params="
+        link_name
+        mesh_package
+        mesh_name
+        xyz_offset:='0 0 0'
+        rpy_offset:='0 0 0'
+        mass:=1.0">
+    <link name="${link_name}">
+      <visual>
+        <origin xyz="${xyz_offset}" rpy="${rpy_offset}"/>
+        <geometry>
+          <mesh filename="package://${mesh_package}/meshes/${mesh_name}.stl"/>
+        </geometry>
+        <material name="grey">
+          <color rgba="0.7 0.7 0.7 1.0"/>
+        </material>
+      </visual>
+      <collision>
+        <origin xyz="${xyz_offset}" rpy="${rpy_offset}"/>
+        <geometry>
+          <mesh filename="package://${mesh_package}/meshes/${mesh_name}.stl"/>
+        </geometry>
+      </collision>
+      <!-- Inercia generica (placeholder). Ajustar con datos reales si se requiere dinamica/Gazebo. -->
+      <inertial>
+        <mass value="${mass}"/>
+        <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+      </inertial>
+    </link>
+  </xacro:macro>
+</robot>
