@@ -14,7 +14,7 @@
        link padre.
        ============================================================ -->
 
-  <xacro:property name="pi" value="3.14159265359"/>
+  <!-- 'pi' ya viene definido en xacro, no hay que redefinirlo -->
 
   <!-- macro auxiliar para crear links desde mallas -->
   <xacro:include filename="$(find r6bot_description)/urdf/create_link.xacro"/>
